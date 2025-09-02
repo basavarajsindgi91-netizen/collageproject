@@ -32,7 +32,7 @@ const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'basavarajsindgi91@gmail.com',
-        pass: 'lbdj tcoj cfpm srhq' // Use app-specific password
+        pass: '**** **** ****' // Use app-specific password
     }
 });
 
@@ -198,4 +198,5 @@ app.get('/students/semester/:semester', async (req, res) => {
 // Start server
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
+
 });
