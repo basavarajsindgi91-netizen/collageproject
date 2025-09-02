@@ -115,7 +115,7 @@ const sendEmailWithPDF = (to, subject, text, filePath) => {
         service: 'gmail',
         auth: {
             user: 'basavarajsindgi91@gmail.com',  // Sender email address
-            pass: 'lbdj tcoj cfpm srhq'          // Sender email password (App-specific password)
+            pass: '**** **** ****'          // Sender email password (App-specific password)
         }
     });
 
@@ -272,3 +272,4 @@ app.get('/export-attendance', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+
