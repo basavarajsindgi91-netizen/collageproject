@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriLeaf Vision Pro - Smart Agriculture Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+                <span>AgriLeaf Vision Pro</span>
+            </div>
+            <div class="header-controls">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span>Live</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="dashboard">
+        <div class="container">
+            <!-- IoT Sensors Section -->
+            <section class="sensors-section">
+                <h2 class="section-title">
+                    <i class="fas fa-microchip"></i>
+                    IoT Sensor Network
+                </h2>
+                
+                <div class="sensors-grid">
+                    <!-- Soil Moisture -->
+                    <div class="sensor-card" data-sensor="moisture">
+                        <div class="sensor-header">
+                            <i class="fas fa-tint"></i>
+                            <span>Soil Moisture</span>
+                        </div>
+                        <div class="sensor-gauge">
+                            <canvas id="moistureGauge" width="120" height="120"></canvas>
+                        </div>
+                        <div class="sensor-value">
+                            <span class="value" id="moistureValue">--</span>
+                            <span class="unit">%</span>
+                        </div>
+                        <div class="sensor-status" id="moistureStatus">Initializing...</div>
+                    </div>
+
+                    <!-- Temperature -->
+                    <div class="sensor-card" data-sensor="temperature">
+                        <div class="sensor-header">
+                            <i class="fas fa-thermometer-half"></i>
+                            <span>Temperature</span>
+                        </div>
+                        <div class="sensor-gauge">
+                            <canvas id="temperatureGauge" width="120" height="120"></canvas>
+                        </div>
+                        <div class="sensor-value">
+                            <span class="value" id="temperatureValue">--</span>
+                            <span class="unit">°C</span>
+                        </div>
+                        <div class="sensor-status" id="temperatureStatus">Initializing...</div>
+                    </div>
+
+                    <!-- Humidity -->
+                    <div class="sensor-card" data-sensor="humidity">
+                        <div class="sensor-header">
+                            <i class="fas fa-cloud"></i>
+                            <span>Humidity</span>
+                        </div>
+                        <div class="sensor-gauge">
+                            <canvas id="humidityGauge" width="120" height="120"></canvas>
+                        </div>
+                        <div class="sensor-value">
+                            <span class="value" id="humidityValue">--</span>
+                            <span class="unit">%</span>
+                        </div>
+                        <div class="sensor-status" id="humidityStatus">Initializing...</div>
+                    </div>
+                </div>
+
+                <!-- Real-time Chart -->
+                <div class="chart-container">
+                    <h3>Real-time Sensor Data</h3>
+                    <canvas id="sensorChart"></canvas>
+                </div>
+            </section>
+
+            <!-- ML Disease Detection Section -->
+            <section class="ml-section">
+                <h2 class="section-title">
+                    <i class="fas fa-brain"></i>
+                    AI Leaf Disease Detection
+                </h2>
+                
+                <div class="ml-container">
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-content">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h3>Upload Grape Leaf Image</h3>
+                            <p>Drag & drop or click to select</p>
+                            <input type="file" id="leafImage" accept="image/*" hidden>
+                        </div>
+                    </div>
+
+                    <div class="prediction-results" id="predictionResults" style="display: none;">
+                        <div class="result-header">
+                            <h3>Disease Analysis Results</h3>
+                            <div class="confidence-badge" id="confidenceBadge">--</div>
+                        </div>
+                        
+                        <div class="disease-cards">
+                            <div class="disease-card" data-disease="healthy">
+                                <div class="disease-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="disease-info">
+                                    <span class="disease-name">Healthy</span>
+                                    <div class="confidence-bar">
+                                        <div class="confidence-fill" id="healthyConfidence"></div>
+                                    </div>
+                                    <span class="confidence-text" id="healthyText">0%</span>
+                                </div>
+                            </div>
+
+                            <div class="disease-card" data-disease="powdery">
+                                <div class="disease-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="disease-info">
+                                    <span class="disease-name">Powdery Mildew</span>
+                                    <div class="confidence-bar">
+                                        <div class="confidence-fill" id="powderyConfidence"></div>
+                                    </div>
+                                    <span class="confidence-text" id="powderyText">0%</span>
+                                </div>
+                            </div>
+
+                            <div class="disease-card" data-disease="downy">
+                                <div class="disease-icon">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </div>
+                                <div class="disease-info">
+                                    <span class="disease-name">Downy Mildew</span>
+                                    <div class="confidence-bar">
+                                        <div class="confidence-fill" id="downyConfidence"></div>
+                                    </div>
+                                    <span class="confidence-text" id="downyText">0%</span>
+                                </div>
+                            </div>
+
+                            <div class="disease-card" data-disease="blackrot">
+                                <div class="disease-icon">
+                                    <i class="fas fa-times-circle"></i>
+                                </div>
+                                <div class="disease-info">
+                                    <span class="disease-name">Black Rot</span>
+                                    <div class="confidence-bar">
+                                        <div class="confidence-fill" id="blackrotConfidence"></div>
+                                    </div>
+                                    <span class="confidence-text" id="blackrotText">0%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="analyze-again-btn" id="analyzeAgain">
+                            <i class="fas fa-redo"></i>
+                            Analyze Another Image
+                        </button>
+                    </div>
+
+                    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+                        <div class="loading-spinner"></div>
+                        <p>Analyzing leaf image...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
